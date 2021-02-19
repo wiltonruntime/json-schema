@@ -1,12 +1,14 @@
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 define(["require", "exports", "./deep-compare-strict.js", "./dereference.js", "./format.js", "./pointer.js", "./ucs2-length.js"], function (require, exports, deep_compare_strict_js_1, dereference_js_1, format_js_1, pointer_js_1, ucs2_length_js_1) {
     "use strict";
+
+    var __spreadArrays = (this && this.__spreadArrays) || function () {
+        for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+        for (var r = Array(s), k = 0, i = 0; i < il; i++)
+            for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+                r[k] = a[j];
+        return r;
+    };
+
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validate = void 0;
     function validate(instance, schema, draft, lookup, shortCircuit, recursiveAnchor, instanceLocation, schemaLocation, evaluated) {
