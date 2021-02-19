@@ -1,9 +1,8 @@
 {
-  "extends": "../../tsconfig-base",
   "compilerOptions": {
-    "target": "esnext",
-    "lib": ["esnext", "webworker"],
-    "types": ["chai", "mocha"],
+    "module": "amd",
+    "target": "ES5",
+    "lib": ["ES5"],
     "outDir": "dist",
     "rootDir": "./src"
   },

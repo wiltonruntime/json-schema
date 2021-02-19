@@ -64,10 +64,7 @@ export const ignoredKeyword: Record<string, boolean> = {
  * https://json-schema.org/draft/2019-09/json-schema-core.html#initial-base
  * https://tools.ietf.org/html/rfc3986#section-5.1
  */
-export let initialBaseURI =
-  typeof self !== 'undefined' && self.location
-    ? new URL(self.location.origin + self.location.pathname + location.search)
-    : new URL('https://github.com/cfworker');
+export let initialBaseURI = "";
 
 export function dereference(
   schema: Schema | boolean,
@@ -78,11 +75,12 @@ export function dereference(
   if (schema && typeof schema === 'object' && !Array.isArray(schema)) {
     const id: string = schema.$id || schema.id;
     if (id) {
-      const url = new URL(id, baseURI);
-      if (url.hash.length > 1) {
-        lookup[url.href] = schema;
+      let url = baseURI + id;
+      const hashIdx = url.indexOf("#");
+      if (hashIdx > 0) {
+        lookup[url] = schema;
       } else {
-        url.hash = ''; // normalize hash https://url.spec.whatwg.org/#dom-url-hash
+        url = url.substring(0, hashIdx); // normalize hash https://url.spec.whatwg.org/#dom-url-hash
         if (basePointer === '') {
           baseURI = url;
         } else {
@@ -95,7 +93,7 @@ export function dereference(
   }
 
   // compute the schema's URI and add it to the mapping.
-  const schemaURI = baseURI.href + (basePointer ? '#' + basePointer : '');
+  const schemaURI = baseURI + (basePointer ? '#' + basePointer : '');
   if (lookup[schemaURI] !== undefined) {
     throw new Error(`Duplicate schema URI "${schemaURI}".`);
   }
@@ -116,18 +114,17 @@ export function dereference(
 
   // if a $ref is found, resolve it's absolute URI.
   if (schema.$ref && schema.__absolute_ref__ === undefined) {
-    const url = new URL(schema.$ref, baseURI);
-    url.hash = url.hash; // normalize hash https://url.spec.whatwg.org/#dom-url-hash
+    const url = baseURI + schema.$ref;
     Object.defineProperty(schema, '__absolute_ref__', {
       enumerable: false,
-      value: url.href
+      value: url
     });
   }
 
   // if an $anchor is found, compute it's URI and add it to the mapping.
   if (schema.$anchor) {
-    const url = new URL('#' + schema.$anchor, baseURI);
-    lookup[url.href] = schema;
+    const url = baseURI + '#' + schema.$anchor;
+    lookup[url] = schema;
   }
 
   // process subschemas.

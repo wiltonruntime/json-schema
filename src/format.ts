@@ -37,7 +37,7 @@ const EMAIL = (input: string) => {
     host.length > 253
   )
     return false;
-  if (name[0] === '.' || name.endsWith('.') || name.includes('..'))
+  if (name[0] === '.' || (name.length > 0 && '.' == name[name.length - 1]) || -1 != name.indexOf('..'))
     return false;
   if (
     !/^[a-z0-9.-]+$/i.test(host) ||

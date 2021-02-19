@@ -987,8 +987,8 @@ export function validate(
               keywordLocation: `${schemaLocation}/uniqueItems`,
               error: `Duplicate items at indexes ${j} and ${k}.`
             });
-            j = Number.MAX_SAFE_INTEGER;
-            k = Number.MAX_SAFE_INTEGER;
+            j = 9007199254740991; // Number.MAX_SAFE_INTEGER;
+            k = 9007199254740991; // Number.MAX_SAFE_INTEGER;
           }
         }
       }
